@@ -1,0 +1,20 @@
+{
+  "blocker": "No synchronized merchant and payer Zallet testnet RPC endpoints or funded shielded testnet payer wallet are available on this machine; no payment was attempted.",
+  "blockerCode": "TESTNET_WALLETS_NOT_PROVISIONED",
+  "command": "python3 harness/zec_checkout_gate.py run --payer-from-address <redacted> --out <path>",
+  "confirmedNoteDetected": false,
+  "fundedPaymentAttempted": false,
+  "network": "testnet",
+  "recordedAt": "2026-07-14T10:23:13Z",
+  "schemaVersion": "shielded-zec-feasibility/v1",
+  "secretsRecorded": false,
+  "shortestResolution": "Start pinned Zebra and two pinned Zallet zaino-backend wallets, synchronize testnet, fund the payer with shielded testnet ZEC, then run the gate once.",
+  "stage": "testnet-preflight",
+  "status": "blocked",
+  "usdRequested": 0,
+  "versions": {
+    "zaino": "0.6.0",
+    "zallet": "v0.1.0-beta.1",
+    "zebra": "v6.0.0"
+  }
+}
