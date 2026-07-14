@@ -1,0 +1,23 @@
+[consensus]
+checkpoint_sync = true
+
+[network]
+network = "Testnet"
+listen_addr = "0.0.0.0:18233"
+cache_dir = "runtime/zebra/cache"
+
+[rpc]
+listen_addr = "127.0.0.1:18232"
+cookie_dir = "runtime/zebra"
+enable_cookie_auth = true
+
+[state]
+cache_dir = "runtime/zebra/cache"
+ephemeral = false
+
+[tracing]
+force_use_color = false
+use_color = false
+
+[mining]
+internal_miner = false

@@ -1,0 +1,33 @@
+backend = "zaino"
+
+[builder.limits]
+
+[consensus]
+network = "test"
+
+[database]
+
+[external]
+
+[features]
+as_of_version = "0.1.0-beta.1"
+
+[features.deprecated]
+
+[features.experimental]
+
+[indexer]
+validator_address = "127.0.0.1:18232"
+validator_cookie_path = "../zebra/.cookie"
+db_path = "zaino"
+
+[keystore]
+require_backup = false
+
+[note_management]
+
+[rpc]
+bind = ["127.0.0.1:28232"]
+
+[sync]
+recover_batch_size = 1000

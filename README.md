@@ -43,10 +43,10 @@ Probe configured RPC endpoints without sending funds:
 export VALIDATOR_RPC_URL=http://127.0.0.1:18232
 export VALIDATOR_RPC_USER=local-rpc-user
 export VALIDATOR_RPC_PASSWORD='set-locally'
-export MERCHANT_RPC_URL=http://127.0.0.1:28232
+export MERCHANT_RPC_URL=http://127.0.0.1:28233
 export MERCHANT_RPC_USER=local-rpc-user
 export MERCHANT_RPC_PASSWORD='set-locally'
-export PAYER_RPC_URL=http://127.0.0.1:38232
+export PAYER_RPC_URL=http://127.0.0.1:28232
 export PAYER_RPC_USER=local-rpc-user
 export PAYER_RPC_PASSWORD='set-locally'
 
@@ -72,6 +72,7 @@ The harness queries Zebra directly and fails closed until its reported testnet v
 
 - [Prior work ledger](docs/prior-work.md)
 - [Backend and version decision](docs/backend-decision.md)
+- [Native Linux ARM64 testnet runbook](docs/testnet-runbook.md)
 - [Feasibility gate and blocker](docs/feasibility.md)
 - [Transcript schema](docs/transcript-schema.md)
 - [Security policy](SECURITY.md)
