@@ -1,6 +1,6 @@
 {
-  "blocker": "Zebra v6.0.0 is actively syncing Zcash testnet but has not reached the network tip; the shielded-only payer wallet is also not yet funded. No payment was attempted.",
-  "blockerCode": "VALIDATOR_SYNCING_AND_PAYER_UNFUNDED",
+  "blocker": "Zebra v6.0.0 is actively syncing Zcash testnet but has not reached the network tip. Shielded faucet funding is confirmed on testnet, but the local payer wallet cannot detect or spend it until synchronization completes. No checkout payment was attempted.",
+  "blockerCode": "VALIDATOR_SYNCING",
   "command": "python3 harness/zec_checkout_gate.py run --payer-from-address <redacted> --out <path>",
   "confirmedNoteDetected": false,
   "fundedPaymentAttempted": false,
@@ -13,7 +13,7 @@
       ],
       "transparentReceiverPresent": false,
       "uaSha256": "351aa0f25bffbed70af17d5cfbf6897181f174d9a028ab40635777f51ffed724",
-      "walletHeight": 14800
+      "walletHeight": 34336
     },
     "payer": {
       "receiverTypes": [
@@ -22,18 +22,27 @@
       ],
       "transparentReceiverPresent": false,
       "uaSha256": "70bf08cb17b4f5636ec0df468c9a83f5a78e43096655fb6203434c93b827bb32",
-      "walletHeight": 14800
+      "walletHeight": 34336
+    },
+    "payerFunding": {
+      "addressKind": "unified",
+      "amountZatoshi": "100000000",
+      "checkoutPayment": false,
+      "privacyPolicy": "full_privacy",
+      "source": "Fauzec community testnet faucet",
+      "state": "confirmed",
+      "txid": "c6e2e07ae97c14486f5228c56b025c6bc72aeb0ae147eb1c2f51feef25b3bc7c"
     },
     "rpcEndpointsProvisioned": true,
     "validator": {
-      "height": 15200,
-      "verificationProgress": "0.004356616582773135"
+      "height": 34800,
+      "verificationProgress": "0.010074440854057828"
     }
   },
-  "recordedAt": "2026-07-14T11:10:00Z",
+  "recordedAt": "2026-07-14T11:14:39Z",
   "schemaVersion": "shielded-zec-feasibility/v1",
   "secretsRecorded": false,
-  "shortestResolution": "Let the pinned Zebra validator reach verification progress 0.99999, let both Zallet wallets catch up, fund the payer's shielded-only UA with testnet ZEC, then run the gate once.",
+  "shortestResolution": "Let the pinned Zebra validator reach verification progress 0.99999, let both Zallet wallets catch up and detect the confirmed faucet note, then run the checkout gate once.",
   "stage": "validator-sync",
   "status": "blocked",
   "usdRequested": 0,
