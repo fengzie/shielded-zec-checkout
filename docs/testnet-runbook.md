@@ -1,6 +1,8 @@
-# Native Linux ARM64 testnet runbook
+# Archived full-node testnet runbook
 
-This is the smallest reproducible operator path for the pre-application feasibility gate. It is intentionally limited to native Linux ARM64, the platform used for the current run. It is not a production deployment guide.
+> **Status: superseded.** This document preserves the exact first-attempt setup for provenance and reproducibility. It is not the default deployment or the next feasibility path. Use [the backend decision](backend-decision.md) and [long-term architecture](architecture.md) for current direction.
+
+This was the smallest reproducible full-node operator path for the first pre-application feasibility attempt. It is intentionally limited to native Linux ARM64, the platform used for that run. It is not a production deployment guide.
 
 Run every command from the repository root. Keep `runtime/` private; it contains wallet databases, encryption identities, RPC cookies, and full Unified Addresses and is excluded by `.gitignore`.
 

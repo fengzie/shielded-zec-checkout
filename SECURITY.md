@@ -21,6 +21,8 @@ Never include mnemonic phrases, spending keys, viewing keys, RPC credentials, or
 
 - Buyer-visible addresses must contain shielded receivers only.
 - Receiver validation must fail closed on unknown or transparent receiver types.
-- RPC endpoints should bind to loopback or a private network and require authentication.
+- Wallet control endpoints must bind to loopback or a private network and require authentication.
+- Remote compact-block endpoints must use authenticated transport; wallet keys, derived address lists, and order mappings must never be sent to them.
+- Endpoint disagreement, stale chain data, or an incomplete wallet scan must make the shielded rail unavailable.
 - The harness must run on testnet and refuse mainnet.
 - Public transcripts must be redacted and must not contain wallet secrets or full Unified Addresses.

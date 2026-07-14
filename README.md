@@ -20,16 +20,14 @@ The reference integration target is a merchant-operated standalone commerce node
 
 ## Status
 
-Pre-application feasibility work only. The repository does not yet claim a production backend, restart recovery, withdrawal support, complete failure-path coverage, or third-party reproduction. See [the current feasibility record](docs/feasibility.md).
+Pre-application feasibility work only. The initial co-located Zebra and Zallet attempt was stopped before payment and superseded by a light-client architecture. The repository does not yet claim a real testnet checkout result, production backend, restart recovery, withdrawal support, complete failure-path coverage, or third-party reproduction. See [the current feasibility record](docs/feasibility.md).
 
 ## Quick start
 
 Requirements:
 
 - Python 3.11 or newer;
-- a fully synchronized Zebra testnet validator and two synchronized Zallet wallets using the pinned backend decision;
-- a payer wallet with spendable shielded testnet ZEC;
-- RPC credentials supplied only through environment variables.
+- no wallet backend or network access for the local unit tests.
 
 Run local tests:
 
@@ -37,42 +35,14 @@ Run local tests:
 make test
 ```
 
-Probe configured RPC endpoints without sending funds:
-
-```bash
-export VALIDATOR_RPC_URL=http://127.0.0.1:18232
-export VALIDATOR_RPC_USER=local-rpc-user
-export VALIDATOR_RPC_PASSWORD='set-locally'
-export MERCHANT_RPC_URL=http://127.0.0.1:28233
-export MERCHANT_RPC_USER=local-rpc-user
-export MERCHANT_RPC_PASSWORD='set-locally'
-export PAYER_RPC_URL=http://127.0.0.1:28232
-export PAYER_RPC_USER=local-rpc-user
-export PAYER_RPC_PASSWORD='set-locally'
-
-make probe
-```
-
-Run the real gate after the payer wallet is funded:
-
-```bash
-export PAYER_FROM_ADDRESS='utest1...'
-python3 harness/zec_checkout_gate.py run \
-  --merchant-account-name merchant-feasibility \
-  --payer-from-address "$PAYER_FROM_ADDRESS" \
-  --amount-zatoshi 100000 \
-  --confirmations 1 \
-  --out artifacts/testnet-feasibility.json
-```
-
-RPC passwords, mnemonic phrases, spending keys, viewing keys, wallet paths, and full Unified Addresses are never written to the transcript.
-The harness queries Zebra directly and fails closed until its reported testnet verification progress reaches `0.99999`.
+The existing RPC harness and full-node runbook are preserved as superseded first-attempt evidence. Do not use them as the current backend direction. A replacement light-client gate must pass the same receiver, network, confirmation, and redaction invariants before any real result is claimed.
 
 ## Documentation
 
 - [Prior work ledger](docs/prior-work.md)
+- [Long-term architecture](docs/architecture.md)
 - [Backend and version decision](docs/backend-decision.md)
-- [Native Linux ARM64 testnet runbook](docs/testnet-runbook.md)
+- [Archived full-node testnet runbook](docs/testnet-runbook.md)
 - [Feasibility gate and blocker](docs/feasibility.md)
 - [Transcript schema](docs/transcript-schema.md)
 - [Security policy](SECURITY.md)

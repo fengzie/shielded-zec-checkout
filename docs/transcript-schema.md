@@ -8,7 +8,7 @@ Required pass fields:
 |---|---|
 | `status` | Must be `passed` |
 | `network` | Must be `testnet` |
-| `versions` | Pinned Zallet and Zebra releases plus the exact embedded Zaino source revision |
+| `versions` | Pinned wallet, light-client protocol implementation, and endpoint software versions observed by the gate |
 | `merchantAddress.prefix` | Short non-secret display prefix |
 | `merchantAddress.sha256` | Commitment to the full UA without publishing it |
 | `perOrderAddressUnique` | Two allocations returned different UAs |
