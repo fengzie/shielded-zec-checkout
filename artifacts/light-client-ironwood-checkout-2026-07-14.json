@@ -1,0 +1,69 @@
+{
+  "chainEvidence": {
+    "blockHeight": 4170684,
+    "componentCounts": {
+      "ironwoodActions": 2,
+      "orchardActions": 0,
+      "saplingOutputs": 0,
+      "saplingSpends": 0,
+      "transparentInputs": 0,
+      "transparentOutputs": 0
+    },
+    "explorerObservedConfirmations": 95,
+    "privacyShape": "shielded_only",
+    "transactionSizeBytes": 9166,
+    "zip317ConventionalFeeZatoshi": "10000"
+  },
+  "confirmedNoteDetected": true,
+  "confirmations": 3,
+  "detectedAmountZatoshi": "99990000",
+  "endpoint": {
+    "consensusBranchId": "37a5165b",
+    "uri": "https://testnet.zec.rocks:443/"
+  },
+  "feeZatoshi": "10000",
+  "fundedPaymentAttempted": true,
+  "merchantAddress": {
+    "addressIndex": 2,
+    "prefix": "utest1mwqt…",
+    "sha256": "c60aaf38e55f062ae020692384cb75dbfbada337fd5fc3b2e4e4aa1db29b708c"
+  },
+  "merchantDetection": {
+    "authority": "UFVK only",
+    "minimumConfirmations": 3,
+    "pool": "ironwood",
+    "status": "confirmed"
+  },
+  "network": "testnet",
+  "payerFunding": {
+    "amountZatoshi": "100000000",
+    "confirmedHeight": 4170365,
+    "pool": "ironwood",
+    "txid": "419da0632b7862253991000397585a4108bd3363d5b23f0f84717cfdc9005673"
+  },
+  "perOrderAddressUnique": true,
+  "receiverTypes": [
+    "orchard",
+    "sapling"
+  ],
+  "recordedAt": "2026-07-14T17:16:56Z",
+  "requestedAmountZatoshi": "99990000",
+  "schemaVersion": "shielded-zec-feasibility/v1",
+  "secretsRecorded": false,
+  "sendTxHash": "3f98a2d722f4a8e5436ac6b753a5c9465c992b9736fdb0a9bd328e2a497d4be6",
+  "stage": "confirmed-shielded-checkout",
+  "status": "passed",
+  "transparentReceiverPresent": false,
+  "usdRequested": 0,
+  "versions": {
+    "librustzcashCommit": "4d9a68dc80508e7644aa99e1b4add7c831057bba",
+    "localPatchSha256": "f07f50997474c4e9e7d095c4ea2190829532c0d11853a2e996e9f1deaf93e1dc",
+    "publicPatchArtifactSha256": "f675a1fd5fd73c2b3f704583fdc969d51d7887e00ff8231c8bc4246050d7409e",
+    "rustToolchain": "rustc 1.91.1",
+    "sourceRef": "feat/ironwood",
+    "zingoCliPackage": "0.4.0",
+    "zingoCliReported": "Zingo CLI 0.1.1",
+    "zingoCliSha256": "9f2f113d6a9d2356e6051d9e9f6959e5ad919dc5478976f7bce2b962489942a3",
+    "zingolibCommit": "b8af4fd520c7a4833b253b044d7e61626e44b2af"
+  }
+}

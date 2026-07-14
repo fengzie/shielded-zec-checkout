@@ -1,0 +1,39 @@
+{
+  "command": "python3 harness/zec_checkout_gate.py light-preflight --zingo-cli <path> --out <path>",
+  "confirmedNoteDetected": false,
+  "endpoint": {
+    "consensusBranchId": "37a5165b",
+    "latestBlockHeight": 4170343,
+    "protocolVersion": "v0.4.19-valar",
+    "saplingActivationHeight": "280000",
+    "uri": "https://testnet.zec.rocks:443/",
+    "vendor": "ECC LightWalletD"
+  },
+  "fundedPaymentAttempted": false,
+  "merchantAddress": {
+    "prefix": "utest10new\u2026",
+    "sha256": "79e08acdd76c18a8b154249400bd632f08453a174dcb8cf65c7c847dd4b33233"
+  },
+  "network": "testnet",
+  "nextGate": "fund a disposable shielded payer and detect one confirmed payer-to-merchant note",
+  "receiverTypes": [
+    "orchard",
+    "sapling"
+  ],
+  "recordedAt": "2026-07-14T14:00:15Z",
+  "schemaVersion": "shielded-zec-feasibility/v1",
+  "secretsRecorded": false,
+  "stage": "light-client-preflight",
+  "status": "preflight-passed",
+  "transparentReceiverPresent": false,
+  "usdRequested": 0,
+  "versions": {
+    "zingoCliPackage": "0.4.0",
+    "zingoCliReported": "Zingo CLI 0.1.1",
+    "zingoCliSha256": "1cab62c9f3bdee425942e5d9c328f4f765c7609d7a97ef14fbe7172b6b91343c",
+    "zingolibCommit": "9e897f8b2fc5f12a99604f2533164af62af7d3ac",
+    "zingolibTag": "zingolib_v5.0.0"
+  },
+  "walletDataRetained": false,
+  "walletFileMode": "0600"
+}

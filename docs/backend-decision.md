@@ -12,7 +12,73 @@ Use a local light-client wallet against configurable CompactTxStreamer endpoints
 - Production profiles should compare independent endpoints and fail closed on disagreement or stale data.
 - A merchant-operated Zebra plus Zaino stack remains an optional sovereign deployment profile.
 
-ZingoLib `v5.0.0` is the leading candidate for the next pre-application feasibility attempt. Selection remains provisional until its current testnet CompactTxStreamer path, shielded-only address derivation, sending behavior, confirmation detection, and machine-readable automation are exercised locally. Production library selection remains future funded work and must not be claimed by the feasibility result.
+ZingoLib `v5.0.0` passed endpoint and address preflight but is rejected for the
+current funded gate because it predates the active Ironwood wallet path. The
+ordinary `dev` comparison below also lacked that receive path. Neither result
+is evidence of a broken CompactTxStreamer architecture.
+
+`zingolib_v5.0.0` was rechecked against the official upstream refs on
+2026-07-14 and remains the newest stable tag. The release publishes source but
+no prebuilt assets. The active `dev` branch contains later, untagged work; it is
+not used for this reproducible gate.
+
+The active branch merged preparatory `pre_ironwood` work on 2026-07-13, after
+the v5 tag was published. One bounded comparison used
+`dev@6f507e55c666c2cc0b0a1f6be48c8c50e5e40e55`; it completed a fresh scan but
+also did not detect the confirmed payer note. The actual receive implementation
+was on `feat/ironwood`, not ordinary `dev`. A tagged release remains preferred;
+an untagged feature branch is exact-commit evidence only and cannot be presented
+as stable packaging.
+
+### Light-client preflight evidence
+
+The first two candidate checks passed on 2026-07-14:
+
+- source tag `zingolib_v5.0.0`, commit `9e897f8b2fc5f12a99604f2533164af62af7d3ac`;
+- locally built `zingo-cli` package `0.4.0`, SHA-256 `1cab62c9f3bdee425942e5d9c328f4f765c7609d7a97ef14fbe7172b6b91343c`;
+- public-testnet CompactTxStreamer response from `https://testnet.zec.rocks:443`;
+- disposable UA reported Orchard and Sapling receivers with no transparent receiver;
+- temporary wallet state was deleted after the preflight.
+
+This initial record proves endpoint compatibility and receiver control only.
+
+The funded check then confirmed 1 TAZ to the payer UA at height `4170365`.
+ZingoLib v5 scanned and rescanned through `4170373` while reporting zero shielded
+outputs, notes, and balance. The checkout send was correctly stopped. See
+`artifacts/light-client-note-blocker-2026-07-14.json`.
+
+The exact ordinary dev comparison built `zingo-cli` package `0.4.0` from
+commit `6f507e55c666c2cc0b0a1f6be48c8c50e5e40e55` (binary SHA-256
+`4d5e1af45d6e42be7708a397b8321f2e15634952ccee76c891873de190a1132d`). Its
+first compact-server ChainTip request timed out; one in-session retry then
+rescanned heights `4170213` through `4170438` completely. Its legacy counter
+reported two Sapling outputs, but chain inspection identifies them as Ironwood
+actions. It found no wallet note and no checkout send was attempted. See
+`artifacts/light-client-dev-note-blocker-2026-07-14.json`.
+
+The feasibility pass used `feat/ironwood` commit
+`b8af4fd520c7a4833b253b044d7e61626e44b2af` and
+`librustzcash@4d9a68dc80508e7644aa99e1b4add7c831057bba`. Receive scanning worked,
+but the fee proposal counted V3 spends in the legacy Orchard view while the
+builder placed them in Ironwood. A narrow local patch aligned those views. The
+resulting `zingo-cli` binary SHA-256 was
+`9f2f113d6a9d2356e6051d9e9f6959e5ad919dc5478976f7bce2b962489942a3`.
+This exact candidate passed one real payment but is not adopted for production;
+the patch needs upstream review or replacement and an independent rerun.
+
+The source tag is annotated but not cryptographically signed. Its Cargo package
+and changelog say `zingo-cli 0.4.0`, while the same commit's internal version
+constant makes `--version` report `Zingo CLI 0.1.1`. The exact source commit,
+locked dependencies, and binary digest are therefore authoritative for this
+preflight; the version-label mismatch remains a production packaging caveat.
+
+The CLI's atomic wallet save also creates its temporary file without an explicit
+Unix mode. Under a default `umask 022`, a save changed the disposable wallet
+file from `0600` to `0644`; the enclosing directory remained `0700`, and the
+file was immediately restored to `0600`. The harness now runs the CLI under
+`umask 077` and fails unless the resulting wallet file is exactly `0600`.
+Production persistence must enforce this independently rather than relying on
+the operator's shell umask.
 
 The stable architecture and trust boundaries are recorded in [Long-term architecture](architecture.md).
 
@@ -71,12 +137,14 @@ Zallet describes this release as beta and warns that breaking changes and wallet
 
 ## Next feasibility path
 
-1. Pin the light-client wallet source and build inputs.
-2. Probe at least one testnet CompactTxStreamer endpoint for network, height, and current protocol compatibility.
-3. Create fresh disposable payer and merchant wallets at a recent wallet birthday.
-4. Derive and inspect a shielded-only buyer address before requesting funds.
-5. Run exactly one real payer-to-merchant payment, detect the confirmed note locally, and save a redacted transcript.
-6. Stop without entering production integration, withdrawal, or hosted detector work.
+1. Completed: pin the light-client wallet source and build inputs.
+2. Completed: probe a testnet CompactTxStreamer endpoint for network, height, and current protocol compatibility.
+3. Completed: create and scan disposable payer and merchant wallets at a recent birthday.
+4. Completed: derive two unique merchant UAs and inspect their shielded-only receiver sets.
+5. Completed: detect the confirmed Ironwood payer funding note with the exact feature-branch candidate.
+6. Completed: run exactly one real payer-to-merchant payment and save the confirmed merchant-note transcript.
+7. Next: replace the local fee-accounting patch with an upstream-reviewed release and independently repeat the same gate.
+8. Stop without entering production integration, withdrawal, or hosted detector work.
 
 All work and artifacts from both feasibility attempts are prior work with **USD 0 requested**.
 
@@ -87,4 +155,6 @@ All work and artifacts from both feasibility attempts are prior work with **USD 
 - [Zebra v6.0.0](https://github.com/ZcashFoundation/zebra/releases/tag/v6.0.0)
 - [Zaino 0.6.0](https://github.com/zingolabs/zaino/releases/tag/0.6.0)
 - [ZingoLib v5.0.0](https://github.com/zingolabs/zingolib/releases/tag/zingolib_v5.0.0)
+- [ZingoLib Ironwood feature merge record](https://github.com/zingolabs/zingolib/pull/2428)
+- [Ironwood activation on the current community testnet](https://forum.zcashcommunity.com/t/ironwood-is-active-on-testnet-zec-rocks/56557)
 - [ZIP 307](https://zips.z.cash/zip-0307)

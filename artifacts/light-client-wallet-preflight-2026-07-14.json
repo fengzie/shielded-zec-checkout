@@ -1,0 +1,58 @@
+{
+  "balances": {
+    "merchant": {
+      "orchardZatoshi": "0",
+      "saplingZatoshi": "0",
+      "transparentZatoshi": "0"
+    },
+    "payer": {
+      "orchardZatoshi": "0",
+      "saplingZatoshi": "0",
+      "transparentZatoshi": "0"
+    }
+  },
+  "confirmedNoteDetected": false,
+  "fundedPaymentAttempted": false,
+  "merchantAddresses": [
+    {
+      "addressIndex": 1,
+      "prefix": "utest1tg2g…",
+      "sha256": "b0d513ec2b14014c4002f694099226669e3f3fbc9111ce1b162552eda6117ea5"
+    },
+    {
+      "addressIndex": 2,
+      "prefix": "utest1mwqt…",
+      "sha256": "c60aaf38e55f062ae020692384cb75dbfbada337fd5fc3b2e4e4aa1db29b708c"
+    }
+  ],
+  "network": "testnet",
+  "payerAddress": {
+    "addressIndex": 1,
+    "prefix": "utest1axfl…",
+    "sha256": "7c630951b1f440268d6af86e63005dd091d79b042b4be1368a27bf21a72eca23"
+  },
+  "perOrderAddressUnique": true,
+  "receiverTypes": [
+    "orchard",
+    "sapling"
+  ],
+  "recordedAt": "2026-07-14T14:01:25Z",
+  "schemaVersion": "shielded-zec-feasibility/v1",
+  "secretsRecorded": false,
+  "stage": "persistent-light-client-wallets",
+  "status": "wallet-preflight-passed",
+  "transparentReceiverPresent": false,
+  "usdRequested": 0,
+  "versions": {
+    "zingoCliPackage": "0.4.0",
+    "zingoCliReported": "Zingo CLI 0.1.1",
+    "zingoCliSha256": "1cab62c9f3bdee425942e5d9c328f4f765c7609d7a97ef14fbe7172b6b91343c",
+    "zingolibCommit": "9e897f8b2fc5f12a99604f2533164af62af7d3ac",
+    "zingolibTag": "zingolib_v5.0.0"
+  },
+  "walletBirthday": 4170213,
+  "walletDataRetained": true,
+  "walletDirectoryMode": "0700",
+  "walletFileMode": "0600",
+  "walletScanCompleted": true
+}

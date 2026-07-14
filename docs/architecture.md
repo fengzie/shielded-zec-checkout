@@ -1,6 +1,6 @@
 # Long-term architecture
 
-Status: accepted architectural direction on 2026-07-14. The next light-client feasibility implementation is still pending and no production backend is claimed.
+Status: accepted architectural direction on 2026-07-14. One light-client testnet feasibility run passed; no production backend is claimed.
 
 ## Decision
 
@@ -57,6 +57,20 @@ Endpoint unavailability, endpoint disagreement, stale chain data, an incomplete 
 
 Running Zebra and Zaino is therefore an optional infrastructure profile, not a requirement for every checkout installation.
 
+## Ecosystem alignment
+
+This boundary follows the established mobile-wallet pattern. Zashi/Zodl uses
+the official Zcash Android wallet SDK, while Zingo Mobile uses ZingoLib; both
+families keep wallet keys and compact-block scanning in the client and consume
+a remote light-client service. A full consensus node remains behind the service
+but is not synchronized separately by every phone or merchant checkout.
+
+The current Ironwood testnet transition does not invalidate that architecture.
+It exposed a version-readiness gap: stable and ordinary development wallet
+builds lagged the testnet activation, while an exact feature branch could scan
+Ironwood notes. The passed gate still required a local fee-accounting patch, so
+production adoption must wait for reviewed upstream packaging.
+
 ## Implementation boundary
 
 The provider should target the CompactTxStreamer light-client contract rather than a specific server implementation. Zaino and Lightwalletd-compatible services can then be selected or replaced without changing the commerce integration.
@@ -73,3 +87,6 @@ Compact-block trial decryption keeps addresses and keys local, but a remote serv
 - [Zcash Rust wallet crates](https://github.com/zcash/librustzcash)
 - [Zaino](https://github.com/zingolabs/zaino)
 - [ZingoLib](https://github.com/zingolabs/zingolib)
+- [Zcash Android wallet SDK](https://github.com/zcash/zcash-android-wallet-sdk)
+- [Zodl Android wallet](https://github.com/zodl-inc/zodl-android)
+- [Zingo Mobile](https://github.com/zingolabs/zingo-mobile)

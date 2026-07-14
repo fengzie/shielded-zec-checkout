@@ -35,13 +35,15 @@ See [Long-term architecture](docs/architecture.md) for trust assumptions, key se
 
 ## Status
 
-Pre-application feasibility work only. The initial co-located Zebra and Zallet attempt was stopped before payment and superseded by a light-client architecture. The repository does not yet claim a real testnet checkout result, production backend, restart recovery, withdrawal support, complete failure-path coverage, or third-party reproduction. See [the current feasibility record](docs/feasibility.md).
+Pre-application feasibility work only. The initial co-located Zebra and Zallet attempt was stopped before payment and superseded by a light-client architecture. On 2026-07-14, one real testnet payer-to-merchant run passed: a shielded-only merchant UA received 99,990,000 zat, an UFVK-only merchant wallet detected the confirmed Ironwood note, and the mined transaction contained no transparent, Sapling, or legacy Orchard components.
+
+The run required exact untagged Ironwood sources plus a narrow local fee-accounting patch; it therefore proves feasibility, not a production-ready dependency. This repository does not claim a production backend, restart recovery, withdrawal support, complete failure-path coverage, or third-party reproduction. See [the current feasibility record](docs/feasibility.md) and [redacted transcript](artifacts/light-client-ironwood-checkout-2026-07-14.json).
 
 ## Quick start
 
 Requirements:
 
-- Python 3.11 or newer;
+- Python 3.9 or newer;
 - no wallet backend or network access for the local unit tests.
 
 Run local tests:
@@ -50,7 +52,19 @@ Run local tests:
 make test
 ```
 
-The existing RPC harness and full-node runbook are preserved as superseded first-attempt evidence. Do not use them as the current backend direction. A replacement light-client gate must pass the same receiver, network, confirmation, and redaction invariants before any real result is claimed.
+Run the non-funding light-client preflight with an exact, locally verified
+`zingo-cli` binary:
+
+```bash
+ZINGO_CLI=/absolute/path/to/zingo-cli make light-preflight
+```
+
+This contacts public testnet, creates a disposable temporary wallet, verifies an
+Orchard + Sapling UA with no transparent receiver, writes a redacted transcript,
+enforces a `0600` wallet file under a private temporary directory, and deletes
+the wallet directory. It does not sync wallet history, request
+funds, or send a transaction. The archived full-node runbook is retained only
+as first-attempt evidence.
 
 ## Documentation
 

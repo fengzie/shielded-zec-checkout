@@ -1,0 +1,45 @@
+{
+  "blocker": "Fauzec confirmed a 1 TAZ full-privacy payment to the shielded-only payer UA at testnet height 4170365. ZingoLib v5.0.0 then scanned and rescanned from wallet birthday 4170213 through height 4170373 but reported zero Orchard outputs, zero Sapling outputs, zero notes, and zero balance. No payer-to-merchant checkout payment was attempted.",
+  "blockerCode": "ZINGOLIB_V5_POST_IRONWOOD_NOTE_NOT_DETECTED",
+  "confirmedNoteDetected": false,
+  "endpoint": {
+    "consensusBranchId": "37a5165b",
+    "protocolVersion": "v0.4.19-valar",
+    "uri": "https://testnet.zec.rocks:443/"
+  },
+  "faucetFunding": {
+    "addressKind": "unified",
+    "amountZatoshi": "100000000",
+    "confirmedHeight": 4170365,
+    "privacyPolicy": "full_privacy",
+    "requestId": "01KXGF0C6RSWTYWGE9XAYJZX1R",
+    "state": "confirmed",
+    "txid": "419da0632b7862253991000397585a4108bd3363d5b23f0f84717cfdc9005673"
+  },
+  "fundedPaymentAttempted": false,
+  "network": "testnet",
+  "payerFundingNoteDetected": false,
+  "recordedAt": "2026-07-14T14:07:04Z",
+  "scanEvidence": {
+    "endHeight": 4170373,
+    "orchardOutputs": 0,
+    "saplingOutputs": 0,
+    "startHeight": 4170213,
+    "walletRescanAttempted": true
+  },
+  "schemaVersion": "shielded-zec-feasibility/v1",
+  "secretsRecorded": false,
+  "shortestResolution": "Use a tagged Ironwood-compatible ZingoLib release when available, or run one explicitly pinned post-Ironwood dev comparison before adoption. Re-scan the existing payer wallet and continue only after the confirmed faucet note is detected with zero transparent balance.",
+  "stage": "payer-note-detection",
+  "status": "blocked",
+  "transparentBalanceZatoshi": "0",
+  "usdRequested": 0,
+  "versions": {
+    "zingoCliPackage": "0.4.0",
+    "zingoCliReported": "Zingo CLI 0.1.1",
+    "zingoCliSha256": "1cab62c9f3bdee425942e5d9c328f4f765c7609d7a97ef14fbe7172b6b91343c",
+    "zingolibCommit": "9e897f8b2fc5f12a99604f2533164af62af7d3ac",
+    "zingolibTag": "zingolib_v5.0.0"
+  },
+  "walletFileMode": "0600"
+}

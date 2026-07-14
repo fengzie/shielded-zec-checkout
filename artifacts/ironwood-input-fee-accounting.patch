@@ -1,0 +1,37 @@
+Base: zcash/librustzcash@4d9a68dc80508e7644aa99e1b4add7c831057bba
+Purpose: feasibility-only accounting fix; not an adopted production dependency
+
+diff --git a/zcash_client_backend/src/data_api/wallet/input_selection.rs b/zcash_client_backend/src/data_api/wallet/input_selection.rs
+index 3ef90c4c..f795bcb6 100644
+--- a/zcash_client_backend/src/data_api/wallet/input_selection.rs
++++ b/zcash_client_backend/src/data_api/wallet/input_selection.rs
+@@ -891,0 +892,13 @@ impl<DbT: InputSource> InputSelector for GreedyInputSelector<DbT> {
++                    .filter(|i| i.note().version() != ::orchard::note::NoteVersion::V3)
++                    .map(|i| (*i.internal_note_id(), i.note().value()))
++                    .collect()
++            } else {
++                vec![]
++            };
++
++            #[cfg(feature = "orchard")]
++            let ironwood_inputs = if use_orchard {
++                shielded_inputs
++                    .orchard()
++                    .iter()
++                    .filter(|i| i.note().version() == ::orchard::note::NoteVersion::V3)
+@@ -901 +914,3 @@ impl<DbT: InputSource> InputSelector for GreedyInputSelector<DbT> {
+-                selected_input_ids.chain(orchard_inputs.iter().map(|(id, _)| id));
++                selected_input_ids
++                    .chain(orchard_inputs.iter().map(|(id, _)| id))
++                    .chain(ironwood_inputs.iter().map(|(id, _)| id));
+@@ -984,4 +999,3 @@ impl<DbT: InputSource> InputSelector for GreedyInputSelector<DbT> {
+-            // The Orchard bundle keeps the Orchard spends; its outputs move to the
+-            // Ironwood bundle when routing is active. Ironwood has no spends yet
+-            // (the wallet does not select Ironwood notes until note detection lands),
+-            // so `&orchard_inputs[..0]` is an empty slice of the correct type.
++            // Keep V2 spends in Orchard and account for V3 spends in Ironwood. This
++            // mirrors the builder's note-version routing so proposal and build fees
++            // describe the same bundles.
+@@ -1001 +1015 @@ impl<DbT: InputSource> InputSelector for GreedyInputSelector<DbT> {
+-                &orchard_inputs[..0],
++                &ironwood_inputs[..],

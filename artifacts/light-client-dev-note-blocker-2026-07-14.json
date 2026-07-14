@@ -1,0 +1,54 @@
+{
+  "blocker": "The exact ordinary ZingoLib dev comparison completed a fresh scan of the existing funded payer wallet from height 4170213 through 4170438 after one ChainTip timeout retry. Its legacy scan counter reported two outputs as Sapling, but independent chain inspection identifies the funding transaction as two Ironwood actions with zero Sapling outputs. This dev commit had no working Ironwood receive path and reported zero wallet notes and balance. No payer-to-merchant checkout payment was attempted.",
+  "blockerCode": "ZINGOLIB_DEV_IRONWOOD_UNSUPPORTED",
+  "confirmedNoteDetected": false,
+  "endpoint": {
+    "consensusBranchId": "37a5165b",
+    "uri": "https://testnet.zec.rocks:443/"
+  },
+  "faucetFunding": {
+    "addressKind": "unified",
+    "amountZatoshi": "100000000",
+    "confirmedHeight": 4170365,
+    "privacyPolicy": "full_privacy",
+    "requestId": "01KXGF0C6RSWTYWGE9XAYJZX1R",
+    "state": "confirmed",
+    "txid": "419da0632b7862253991000397585a4108bd3363d5b23f0f84717cfdc9005673"
+  },
+  "fundedPaymentAttempted": false,
+  "network": "testnet",
+  "recordedAt": "2026-07-14T14:25:59Z",
+  "scanEvidence": {
+    "blocksScanned": 226,
+    "chainTipRetryCount": 1,
+    "endHeight": 4170438,
+    "initialChainTipError": "deadline expired before operation could complete",
+    "orchardOutputs": 0,
+    "clientReportedSaplingOutputCounter": 2,
+    "startHeight": 4170213,
+    "walletRescanAttempted": true
+  },
+  "chainTransactionEvidence": {
+    "ironwoodActions": 2,
+    "orchardActions": 0,
+    "saplingOutputs": 0,
+    "transparentInputs": 0,
+    "transparentOutputs": 0
+  },
+  "schemaVersion": "shielded-zec-feasibility/v1",
+  "secretsRecorded": false,
+  "shortestResolution": "Use an exact Ironwood-capable wallet candidate, re-scan the retained payer wallet, and attempt a checkout only after the confirmed funding note is detected with zero transparent balance.",
+  "stage": "payer-note-detection",
+  "status": "blocked",
+  "transparentBalanceZatoshi": "0",
+  "usdRequested": 0,
+  "versions": {
+    "sourceRef": "dev",
+    "zingoCliPackage": "0.4.0",
+    "zingoCliReported": "Zingo CLI 0.1.1",
+    "zingoCliSha256": "4d5e1af45d6e42be7708a397b8321f2e15634952ccee76c891873de190a1132d",
+    "zingolibCommit": "6f507e55c666c2cc0b0a1f6be48c8c50e5e40e55"
+  },
+  "walletCopyRetained": false,
+  "walletFileMode": "0600"
+}
