@@ -18,6 +18,21 @@ Transparent ZEC is never a fallback. A buyer-visible address must pass the recei
 
 The reference integration target is a merchant-operated standalone commerce node. Mobazha is the first integration host and a potential commercial user of the open-source work. This repository does not build or claim a hosted multi-tenant detector.
 
+## Architecture
+
+The default deployment is a local light-client sidecar, not a co-located full node. Consensus and compact-block services are shared or separately operated; merchant viewing capability, wallet state, address derivation, note detection, and order mapping stay local.
+
+```mermaid
+flowchart LR
+    V["Zebra consensus nodes"] --> I["Zaino or Lightwalletd-compatible<br/>CompactTxStreamer endpoints"]
+    I --> S["Local shielded checkout sidecar<br/>compact scan and wallet database"]
+    K["Local UFVK<br/>no spending authority"] --> S
+    S --> C["Commerce provider contract<br/>and order lifecycle"]
+    W["Isolated signer or USK<br/>withdrawal only"] -.-> S
+```
+
+See [Long-term architecture](docs/architecture.md) for trust assumptions, key separation, endpoint policy, checkout events, and optional sovereign deployment.
+
 ## Status
 
 Pre-application feasibility work only. The initial co-located Zebra and Zallet attempt was stopped before payment and superseded by a light-client architecture. The repository does not yet claim a real testnet checkout result, production backend, restart recovery, withdrawal support, complete failure-path coverage, or third-party reproduction. See [the current feasibility record](docs/feasibility.md).
