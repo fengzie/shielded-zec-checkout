@@ -10,13 +10,21 @@ Use the Zallet `zaino` backend against a co-located Zebra node:
 |---|---:|---|
 | Zallet | `v0.1.0-beta.1` / source `5be0f4861feedc47978102c627c6293dea2d7838` | Official release binary executed locally and reported `zallet 0.1.0-beta.1` |
 | Zebra | `v6.0.0` / source `bb41d69013edbfa8594bb097fa751f47eeb31445` | Official release and NU6.3 testnet activation record checked |
-| Zaino | `0.6.0` | Latest official Zaino release checked; the feasibility deployment uses Zallet's embedded `zaino` backend rather than a separately operated indexer |
+| Zallet embedded Zaino libraries | `zaino-fetch 0.2.1`, `zaino-state 0.3.1` / source `8048bf8df61cd409af8c22518a16514bee02a0fb` | Exact dependencies recorded in the Zallet release source; no separate `zainod` process is operated |
 
 The locally verified Zallet Linux arm64 `zaino` backend artifact had SHA-256:
 
 ```text
 05d30bd98772680cfd1aa1949aef2914acd51db8f4b014bf06b5c26efff1d50c
 ```
+
+The locally verified Zebra Linux arm64 binary had SHA-256:
+
+```text
+8b21c20421c4979481b44d2d602eec493f60bebe250137a645379977ad4d7d92
+```
+
+Zaino `0.6.0` was also checked as the current standalone upstream release on the decision date, but it is not a runtime component or transcript version for this deployment.
 
 ## Why this path
 
@@ -33,7 +41,7 @@ The official `zodlinc/zallet:v0.1.0-beta.1` image digest observed locally was:
 sha256:639c36a7c7bf2dc8c9c8e00f2e9a9107401af80c4dac4f3cf2adcb1b1880c3ee
 ```
 
-Invoking its launcher selected `zallet-zebra`, but the backend binary was absent from the image filesystem. The separately published `zallet-zaino` release binary ran successfully when mounted into the same minimal runtime. This repository therefore pins the direct release artifact for the feasibility run and records the image behavior as needing upstream confirmation. No upstream contact has been made in this phase.
+Invoking its launcher selected `zallet-zebra`, but the backend binary was absent from the image filesystem. The separately published `zallet-zaino` release binary could report its version in that minimal image, but the image also lacked CA certificates and the Zaino client failed during startup. The feasibility deployment therefore pins the direct release artifact and runs it in a CA-enabled ARM64 glibc userspace. The image behavior is recorded as needing upstream confirmation; no upstream contact has been made in this phase.
 
 ## Production boundary
 

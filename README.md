@@ -27,7 +27,7 @@ Pre-application feasibility work only. The repository does not yet claim a produ
 Requirements:
 
 - Python 3.11 or newer;
-- two synchronized Zallet testnet wallets using the pinned backend decision;
+- a fully synchronized Zebra testnet validator and two synchronized Zallet wallets using the pinned backend decision;
 - a payer wallet with spendable shielded testnet ZEC;
 - RPC credentials supplied only through environment variables.
 
@@ -40,6 +40,9 @@ make test
 Probe configured RPC endpoints without sending funds:
 
 ```bash
+export VALIDATOR_RPC_URL=http://127.0.0.1:18232
+export VALIDATOR_RPC_USER=local-rpc-user
+export VALIDATOR_RPC_PASSWORD='set-locally'
 export MERCHANT_RPC_URL=http://127.0.0.1:28232
 export MERCHANT_RPC_USER=local-rpc-user
 export MERCHANT_RPC_PASSWORD='set-locally'
@@ -63,6 +66,7 @@ python3 harness/zec_checkout_gate.py run \
 ```
 
 RPC passwords, mnemonic phrases, spending keys, viewing keys, wallet paths, and full Unified Addresses are never written to the transcript.
+The harness queries Zebra directly and fails closed until its reported testnet verification progress reaches `0.99999`.
 
 ## Documentation
 

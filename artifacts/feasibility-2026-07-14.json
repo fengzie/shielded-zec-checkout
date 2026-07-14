@@ -1,19 +1,44 @@
 {
-  "blocker": "No synchronized merchant and payer Zallet testnet RPC endpoints or funded shielded testnet payer wallet are available on this machine; no payment was attempted.",
-  "blockerCode": "TESTNET_WALLETS_NOT_PROVISIONED",
+  "blocker": "Zebra v6.0.0 is actively syncing Zcash testnet but has not reached the network tip; the shielded-only payer wallet is also not yet funded. No payment was attempted.",
+  "blockerCode": "VALIDATOR_SYNCING_AND_PAYER_UNFUNDED",
   "command": "python3 harness/zec_checkout_gate.py run --payer-from-address <redacted> --out <path>",
   "confirmedNoteDetected": false,
   "fundedPaymentAttempted": false,
   "network": "testnet",
-  "recordedAt": "2026-07-14T10:23:13Z",
+  "preflightEvidence": {
+    "merchant": {
+      "receiverTypes": [
+        "orchard",
+        "sapling"
+      ],
+      "transparentReceiverPresent": false,
+      "uaSha256": "351aa0f25bffbed70af17d5cfbf6897181f174d9a028ab40635777f51ffed724",
+      "walletHeight": 14800
+    },
+    "payer": {
+      "receiverTypes": [
+        "orchard",
+        "sapling"
+      ],
+      "transparentReceiverPresent": false,
+      "uaSha256": "70bf08cb17b4f5636ec0df468c9a83f5a78e43096655fb6203434c93b827bb32",
+      "walletHeight": 14800
+    },
+    "rpcEndpointsProvisioned": true,
+    "validator": {
+      "height": 15200,
+      "verificationProgress": "0.004356616582773135"
+    }
+  },
+  "recordedAt": "2026-07-14T11:10:00Z",
   "schemaVersion": "shielded-zec-feasibility/v1",
   "secretsRecorded": false,
-  "shortestResolution": "Start pinned Zebra and two pinned Zallet zaino-backend wallets, synchronize testnet, fund the payer with shielded testnet ZEC, then run the gate once.",
-  "stage": "testnet-preflight",
+  "shortestResolution": "Let the pinned Zebra validator reach verification progress 0.99999, let both Zallet wallets catch up, fund the payer's shielded-only UA with testnet ZEC, then run the gate once.",
+  "stage": "validator-sync",
   "status": "blocked",
   "usdRequested": 0,
   "versions": {
-    "zaino": "0.6.0",
+    "zaino": "embedded@8048bf8df61cd409af8c22518a16514bee02a0fb",
     "zallet": "v0.1.0-beta.1",
     "zebra": "v6.0.0"
   }

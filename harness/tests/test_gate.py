@@ -10,6 +10,7 @@ from zec_checkout_gate import (  # noqa: E402
     assert_shielded_only,
     assert_shielded_source,
     assert_testnet_ua,
+    assert_validator_synced,
     assert_wallet_synced,
     receiver_types,
     sanitize_text,
@@ -72,6 +73,35 @@ class NetworkAndSyncTests(unittest.TestCase):
                 },
                 "sync",
             )
+
+    def test_accepts_synced_testnet_validator(self):
+        self.assertEqual(
+            assert_validator_synced(
+                {"chain": "test", "blocks": 4_200_000, "verificationprogress": 1.0}
+            ),
+            {"height": 4_200_000, "verificationProgress": "1.0"},
+        )
+
+    def test_rejects_validator_that_only_matches_local_wallet_tip(self):
+        with self.assertRaises(GateError) as context:
+            assert_validator_synced(
+                {"chain": "test", "blocks": 3_200, "verificationprogress": 0.0007}
+            )
+        self.assertEqual(context.exception.code, "VALIDATOR_NOT_SYNCED")
+
+    def test_rejects_mainnet_validator(self):
+        with self.assertRaises(GateError) as context:
+            assert_validator_synced(
+                {"chain": "main", "blocks": 3_200_000, "verificationprogress": 1.0}
+            )
+        self.assertEqual(context.exception.code, "WRONG_VALIDATOR_NETWORK")
+
+    def test_rejects_invalid_validator_progress(self):
+        with self.assertRaises(GateError) as context:
+            assert_validator_synced(
+                {"chain": "test", "blocks": 4_200_000, "verificationprogress": None}
+            )
+        self.assertEqual(context.exception.code, "INVALID_VALIDATOR_STATUS")
 
 
 class RedactionTests(unittest.TestCase):

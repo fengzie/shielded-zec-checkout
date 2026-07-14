@@ -19,13 +19,13 @@ A mock, Docker contract fixture, regtest-only address derivation, or hand-author
 
 Status on 2026-07-14: **blocked before payment; no testnet result claimed.**
 
-The current machine has no provisioned, synchronized testnet merchant and payer Zallet RPC endpoints and no funded shielded testnet payer wallet. The official Zallet beta release binary was verified, but a payment was not attempted. The exact machine-readable blocker is in `artifacts/feasibility-2026-07-14.json`.
+The pinned Zebra and Zallet processes are provisioned and actively syncing, and shielded-only payer and merchant UAs have been derived. The validator has not yet reached the public testnet tip and the payer has not yet been funded, so a payment was not attempted. The exact machine-readable blocker is in `artifacts/feasibility-2026-07-14.json`.
 
 ## Shortest resolution
 
-1. Start Zebra `v6.0.0` on testnet with authenticated loopback JSON-RPC.
-2. Start two Zallet `v0.1.0-beta.1` wallets using the `zaino` backend and wait for sync.
-3. Fund the payer wallet with shielded testnet ZEC from a legitimate testnet source.
+1. Let Zebra `v6.0.0` reach the public testnet tip and pass the `0.99999` validator verification-progress preflight.
+2. Let both Zallet `v0.1.0-beta.1` wallets catch up to that validator tip.
+3. Fund the payer's shielded-only UA with testnet ZEC from a legitimate testnet source.
 4. Run the repository harness once and stop when a confirmed note transcript is written.
 
 Do not proceed into Mobazha's primary payment path, production restart recovery, withdrawal, or hosted detector work during this pre-application gate.

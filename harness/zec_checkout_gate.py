@@ -19,16 +19,17 @@ import urllib.error
 import urllib.request
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
 
 SCHEMA = "shielded-zec-feasibility/v1"
 PINNED_ZALLET = "v0.1.0-beta.1"
 PINNED_ZEBRA = "v6.0.0"
-PINNED_ZAINO = "0.6.0"
+PINNED_ZAINO = "embedded@8048bf8df61cd409af8c22518a16514bee02a0fb"
 ALLOWED_RECEIVERS = {"orchard", "sapling"}
 FORBIDDEN_RECEIVERS = {"p2pkh", "p2sh", "transparent", "tex"}
+MIN_VALIDATOR_VERIFICATION_PROGRESS = Decimal("0.99999")
 
 
 class GateError(RuntimeError):
@@ -157,6 +158,29 @@ def assert_wallet_synced(status: Any, stage: str) -> None:
         raise GateError(stage, "WALLET_NOT_SYNCED", "wallet reports remaining sync work")
 
 
+def assert_validator_synced(info: Any) -> dict[str, Any]:
+    if not isinstance(info, dict):
+        raise GateError("validator-sync", "INVALID_VALIDATOR_STATUS", "getblockchaininfo returned an invalid response")
+    if info.get("chain") != "test":
+        raise GateError("validator-sync", "WRONG_VALIDATOR_NETWORK", "validator is not connected to Zcash public testnet")
+    try:
+        blocks = int(info.get("blocks", 0))
+        progress = Decimal(str(info.get("verificationprogress", 0)))
+    except (InvalidOperation, TypeError, ValueError):
+        raise GateError(
+            "validator-sync",
+            "INVALID_VALIDATOR_STATUS",
+            "validator returned invalid block height or verification progress",
+        ) from None
+    if blocks <= 0 or progress < MIN_VALIDATOR_VERIFICATION_PROGRESS or info.get("initialblockdownload") is True:
+        raise GateError(
+            "validator-sync",
+            "VALIDATOR_NOT_SYNCED",
+            f"validator has not reached the testnet tip (height={blocks}, verificationprogress={progress})",
+        )
+    return {"height": blocks, "verificationProgress": str(progress)}
+
+
 def address_commitment(address: str) -> dict[str, str]:
     return {
         "prefix": address[:10] + "…",
@@ -240,8 +264,10 @@ def write_transcript(path: str, transcript: dict[str, Any]) -> None:
 
 def probe(args: argparse.Namespace) -> dict[str, Any]:
     transcript = base_transcript(args)
+    validator = rpc_from_env("VALIDATOR", args.rpc_timeout)
     merchant = rpc_from_env("MERCHANT", args.rpc_timeout)
     payer = rpc_from_env("PAYER", args.rpc_timeout)
+    validator_status = assert_validator_synced(validator.call("getblockchaininfo"))
     merchant_status = merchant.call("getwalletstatus")
     payer_status = payer.call("getwalletstatus")
     assert_wallet_synced(merchant_status, "merchant-sync")
@@ -249,6 +275,7 @@ def probe(args: argparse.Namespace) -> dict[str, Any]:
     transcript.update(
         {
             "status": "probe-passed",
+            "validator": validator_status,
             "merchantWalletReachable": bool(merchant_status is not None),
             "payerWalletReachable": bool(payer_status is not None),
             "fundedPaymentAttempted": False,
@@ -302,9 +329,11 @@ def wait_for_note(
 
 def run_gate(args: argparse.Namespace) -> dict[str, Any]:
     transcript = base_transcript(args)
+    validator = rpc_from_env("VALIDATOR", args.rpc_timeout)
     merchant = rpc_from_env("MERCHANT", args.rpc_timeout)
     payer = rpc_from_env("PAYER", args.rpc_timeout)
 
+    validator_status = assert_validator_synced(validator.call("getblockchaininfo"))
     assert_wallet_synced(merchant.call("getwalletstatus"), "merchant-sync")
     assert_wallet_synced(payer.call("getwalletstatus"), "payer-sync")
 
@@ -356,6 +385,7 @@ def run_gate(args: argparse.Namespace) -> dict[str, Any]:
     transcript.update(
         {
             "status": "passed",
+            "validator": validator_status,
             "walletCreated": account_created,
             "merchantAddress": address_commitment(merchant_address),
             "perOrderAddressUnique": True,
@@ -439,7 +469,7 @@ def main() -> int:
                 "stage": exc.stage,
                 "blockerCode": exc.code,
                 "blocker": sanitize_text(str(exc)),
-                "fundedPaymentAttempted": exc.stage not in {"preflight", "rpc-connect", "merchant-account", "merchant-address", "receiver-guard"},
+                "fundedPaymentAttempted": exc.stage in {"send", "note-detection"},
                 "confirmedNoteDetected": False,
             }
         )
